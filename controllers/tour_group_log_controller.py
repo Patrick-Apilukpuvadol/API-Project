@@ -1,8 +1,8 @@
 from flask import Flask, jsonify, request
 
-@app.route('/customer_tour_booking', methods=['GET'])
-def get_customers():
-    return jsonify(customer_id)
+@app.route('/tour_group_log', methods=['GET'])
+def get_log():
+    return jsonify(tour_id)
 
 @app.route('/customer_tour_booking/<int:tour_id>', methods=['GET'])
 def get_tours(tour_id):

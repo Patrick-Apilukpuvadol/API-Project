@@ -17,15 +17,23 @@ Object relational mapping allowed a variety of methods to generate code that all
 Cross Platform Support
 Object Relational Mapping is supported across a large variety of platforms, programming languages and database management systems. This is really beneficial to developers due to portability and allowing them to improve the functionality of the code in their applications.
 
-
-
-
 ### R5	Document all endpoints for your API
 ### R6	An ERD for your app
 ### R7	Detail any third party services that your app will use
 ### R8	Describe your projects models in terms of the relationships they have with each other
 ### R9	Discuss the database relations to be implemented in your application
+
+For my project I have implemented the use of various PK to FK relations accross the database to ensure that all the information is appropriately linked. 
+
+I had to create another table (customer_tour_booking) that was used in the database with FK connections to bridge the connection of the Customers table and the tour_group_log table.
+
+Each of the other tables such as agent, tour_guide, customer and tour_group_log were each designated a PK and FK to foster relationships and links between one another.
+
 ### R10	Describe the way tasks are allocated and tracked in your project
+
+For this project I have been implementing the use of Trello which is a project management softwarte that allows me to keep in tune and track of my existing tasks, allows me to add necessary tasks on the go when required. 
+
+It allows alot of flexibility for me to organise and prioritise my tasks. The software is free and simple to use which allows me more time to focus on the functionality of my code. 
 
 REFERENCES
 
