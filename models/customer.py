@@ -1,5 +1,5 @@
 from init import db, ma
-from marshmallow import fields
+from marshmallow import Schema,fields
 
 class Customer(db.Model):
     __tablename__ = 'customer'
@@ -13,5 +13,26 @@ class Customer(db.Model):
     
     customers = db.relationship('')
     
-class CustomerSchema(ma,Schema):
+    @classmethod
+    def get_all(cls):
+        return cls.query.all()
     
+    @classmethod
+    def get_by_id(cls,id):
+        return cls.query.get_or_404(id)
+    
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+    
+class CustomerSchema(ma,Schema):
+    customer_id = fields.Integer()
+    first_name = fields.String(50)
+    last_name = fields.String(50)
+    contact_number = fields.String(50)
+    contact_email = fields.String(50)
+    emergency_contact = fields.String(50)

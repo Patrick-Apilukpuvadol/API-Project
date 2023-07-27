@@ -1,8 +1,8 @@
 from init import db, ma
-from marshmallow import fields
+from marshmallow import Schema,fields
 
-class Customer_tour_booking(db.Model):
-    __tablename__ = 'customer_tour_booking'
+class Agent(db.Model):
+    __tablename__ = 'agent'
     
     agent_id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(50))
@@ -10,3 +10,29 @@ class Customer_tour_booking(db.Model):
     contact_number = db.Column(db.String(50))
     contact_email = db.Column(db.String(50))
     emergency_contact = db.Column(db.String(50))
+    
+    @classmethod
+    def get_all(cls):
+        return cls.query.all()
+    
+    @classmethod
+    def get_by_id(cls,id):
+        return cls.query.get_or_404(id)
+    
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+    
+class AgentSchema(ma,Schema):
+    agent_id = fields.Integer()
+    first_name = fields.String(50)
+    last_name = fields.String(50)
+    contact_number = fields.String(50)
+    contact_email = fields.String(50)
+    emergency_contact = fields.String(50)
+    
+    

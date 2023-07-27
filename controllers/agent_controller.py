@@ -14,7 +14,7 @@ def get_agent_id(agent_id):
 
 @app.route('/agent', methods=['POST'])
 def add_agent_tour():
-    data = request.json
+    data = request.get_json()
     agent_id = data['agent_id']
     agent = next((agent for agent in agent if agent['id'] == agent_id), None)
     if agent:

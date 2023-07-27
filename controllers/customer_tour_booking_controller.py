@@ -26,7 +26,7 @@ def get_customer(customer_id):
 
 @app.route('/customer_tour_booking', methods=['POST'])
 def book_tour():
-    data = request.json
+    data = request.get_json()
     customer_id = data['customer_id']
     tour_id = data['tour_id']
     tour = next((tour for tour in tour if tour['id'] == tour_id), None)

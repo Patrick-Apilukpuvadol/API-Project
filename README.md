@@ -1,6 +1,10 @@
 # API-Project
 
 ### R1	Identification of the problem you are trying to solve by building this particular app.
+
+With the design of this app. I wanted to take a chance to try and establish an API that allows customers to booking holiday experiences within the one system. This system would allow Agents and tour guides to collaborate and create products that satisfy the customers needs. Customers would then have the convenience to choose the holiday they would like while being able to not be concerned about matters such as booking across multiple platforms to create an itinery 
+
+
 ### R2	Why is it a problem that needs solving?
 ### R3	Why have you chosen this database system. What are the drawbacks compared to others?
 

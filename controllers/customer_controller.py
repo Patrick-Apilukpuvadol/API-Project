@@ -14,7 +14,7 @@ def get_customer_id(customer_id):
 
 @app.route('/agent', methods=['POST'])
 def add_customer():
-    data = request.json
+    data = request.get_json()
     customer_id = data['customer_id']
     customer = next((customer for customer in customer if customer['id'] == customer_id), None)
     if customer:
