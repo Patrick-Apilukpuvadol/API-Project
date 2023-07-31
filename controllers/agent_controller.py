@@ -1,10 +1,16 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, Blueprint
+from init import db
+from models.tour_group_log import Tour_group_log
+from models.agent import Agent, AgentSchema
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
-@app.route('/agent', methods=['GET'])
+agent_bp = Blueprint('agent', __name__)
+
+@agent_bp.route('/agent', methods=['GET'])
 def get_agents():
     return jsonify(agent_id)
 
-@app.route('/agent/<int:agent_id>', methods=['GET'])
+@agent_bp.route('/agent/<int:agent_id>', methods=['GET'])
 def get_agent_id(agent_id):
     agent = next((agent for agent in agent if agent['id'] == agent_id), None)
     if agent:
@@ -12,7 +18,7 @@ def get_agent_id(agent_id):
     else:
         return jsonify({'error': 'Tour not found'}), 404
 
-@app.route('/agent', methods=['POST'])
+@agent_bp.route('/agent', methods=['POST'])
 def add_agent_tour():
     data = request.get_json()
     agent_id = data['agent_id']

@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from flask import Flask, json,jsonify,request
 from flask_sqlalchemy import SQLAlchemy
 from marshmallow import Schema,fields
-
+from init import db, ma, bcrypt, jwt
 
 def create_app():
     app = Flask(__name__)

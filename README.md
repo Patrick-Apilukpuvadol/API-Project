@@ -6,6 +6,10 @@ With the design of this app. I wanted to take a chance to try and establish an A
 
 
 ### R2	Why is it a problem that needs solving?
+
+This system would allow customers the opportunity to search for packages or experiences on 1 convenient web service.
+Customers would be able to get in touch with agents which can connect them to a variety of tours/experiences provided by various tour guides. This webservice would be a great opportunity for agents and tour guides to work together to provide unique experiences that cater to customers needs. 
+
 ### R3	Why have you chosen this database system. What are the drawbacks compared to others?
 
 ### R4	Identify and discuss the key functionalities and benefits of an ORM
