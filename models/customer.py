@@ -1,6 +1,8 @@
 from init import db, ma
 from marshmallow import Schema,fields
+from marshmallow.validate import Length, And, Email
 
+# defining the model for customer
 class Customer(db.Model):
     __tablename__ = 'customer'
     
@@ -13,26 +15,23 @@ class Customer(db.Model):
     
     customers = db.relationship('')
     
-    @classmethod
-    def get_all(cls):
-        return cls.query.all()
-    
-    @classmethod
-    def get_by_id(cls,id):
-        return cls.query.get_or_404(id)
-    
-    def save(self):
-        db.session.add(self)
-        db.session.commit()
 
-    def delete(self):
-        db.session.delete(self)
-        db.session.commit()
     
 class CustomerSchema(ma,Schema):
     customer_id = fields.Integer()
-    first_name = fields.String(50)
-    last_name = fields.String(50)
-    contact_number = fields.String(50)
-    contact_email = fields.String(50)
-    emergency_contact = fields.String(50)
+    first_name = fields.String(required=True, validate=And(
+        Length(min=2, error='The first name must be at least two characters long.')))
+    last_name = fields.String(required=True, validate=And(
+        Length(min=2, error='The last name must be at least two characters long.')))
+    contact_number = fields.String(required=True, validate=And(
+        Length(min=10, error='The mobile number must be 10 digits')))
+    contact_email = fields.String(required=True, validate=Email)
+    emergency_contact = fields.String(required=True, validate=And(
+        Length(min=10, error='The mobile number must be 10 digits')))
+    
+    class Meta:
+        fields = ('customer_id', 'first_name', 'last_name', 'contact_number', 'contact_email', 'emergency_contact', 'is_admin')
+        ordered = True
+        
+customer_schema = CustomerSchema()
+customers_schema = CustomerSchema(many=True)

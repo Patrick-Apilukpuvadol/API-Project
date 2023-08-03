@@ -12,6 +12,22 @@ Customers would be able to get in touch with agents which can connect them to a 
 
 ### R3	Why have you chosen this database system. What are the drawbacks compared to others?
 
+The database management system that I'm utilising for this project is Postgres. As mentioned in my previous report. PostgreSQL is an open-source relational database management
+system mainly known for its extensibility , powerful features , and support for complex data
+types (structured and unstructured).
+
+The following are potential drawbacks for Postgres. 
+
+#### Slower Performance 
+Due to Postgres being a relational database it reads from the first row and will search downwards until it can locate the result required. This as a result can affect performance speed especially in situations relating to larger commercial databases with extensive rows/columns.
+
+#### Open Source
+Postgres is an open sourced database management software which means that there is no one company that manages the version control and implementation of patches to the software. Although there are alot of communities that assist in developing and maintaining the software, this can cause inconsistencies in the version control which can affect the user friencly interfaces. 
+
+#### High learning Curve
+Postgres as a data management software has a very strict structure in the way data is organised and functions with a set of assumptions. All the data needs to serve a clear purpose and follows the schema so it is appropriately placed in the correct tables and rows. Finding support for specific matters can prove to be difficult due to the high learning curve which prevents simple searching for answers. 
+
+
 ### R4	Identify and discuss the key functionalities and benefits of an ORM
 
 ORM is a programming technique that allows the integration of object oriented programming and Relational database management systems. It allows us to utilise the mapping of software objects into a relational database. ORM provides the following functionalities and benefits:
