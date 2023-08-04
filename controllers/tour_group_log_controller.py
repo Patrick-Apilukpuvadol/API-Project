@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request, Blueprint
 from init import db
-from agent_controller import admin_authorised
+from controllers.agent_controller import admin_authorised
 from models.tour_group_log import Tour_group_log,Tour_group_logSchema, tour_group_log_schema, tour_group_logs_schema
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
@@ -12,7 +12,7 @@ def get_tour_log():
     tour_log = db.session.scalars(stmt)
     return tour_group_logs_schema.dump(tour_log)
 
-@tour_group_bp.route('<int:tour_id>', methods=['GET'])
+@tour_group_bp.route('/<int:tour_id>', methods=['GET'])
 def get_tour_log_id(tour_id):
     stmt = db.select(Tour_group_log).filter_by(tour_id=tour_id)
     tour_log = db.session.scalar(stmt) 
@@ -36,16 +36,16 @@ def add_tour_log():
     )
     db.session.add(tour_log) # Creates new tour log for session
     db.session.commit() # Commits creation of new tour log
-    return tour_group_log_schema.dump(tour_log), 201 # Returns result to user
+    return tour_group_log_schema.dump(tour_log), 201 
 
 @tour_group_bp.route('/<int:tour_id>', methods=['DELETE'])
 @jwt_required()
-def delete_tour_log(tour_id): #deletes the tour log while making user user has admin rights
+def delete_tour_log(tour_id): #deletes the tour log 
     
-    admin_status = admin_authorised() # authorise_admin function checks whether user has admin permissions
+    admin_status = admin_authorised() # authorise_admin function 
     if not admin_status:
-        return {'error': 'You do not possess Admin rights to delete this customer'} # if not admin return this error message
-    stmt = db.select(Tour_group_log).filter_by(tour_id=tour_id) # queries and searches for specific id
+        return {'error': 'You do not possess Admin rights to delete this customer'} # if not admin will return error message
+    stmt = db.select(Tour_group_log).filter_by(tour_id=tour_id) # queries and searches for tour_id
     tour_log = db.session.scalar(stmt)
     if tour_log:
         db.session.delete(tour_log)
@@ -56,7 +56,7 @@ def delete_tour_log(tour_id): #deletes the tour log while making user user has a
     
 @tour_group_bp.route('/<int:tour_id>', methods=['PUT', 'PATCH'])
 @jwt_required()
-def update_tour_log(tour_id): #will query and select tour log if found and update 
+def update_tour_log(tour_id): # will query and select tour log if found and update 
     
     json_data = tour_group_log_schema.load(request.get_json(), partial=True) 
     stmt = db.select(Tour_group_log).filter_by(tour_id=tour_id) 
@@ -70,6 +70,7 @@ def update_tour_log(tour_id): #will query and select tour log if found and updat
         duration=json_data.get('duration'),
         activities=json_data.get('activities'),
         booking_fee=json_data.get('booking_fee'),
+        booking_id=json_data.get('booking_id'),
         return tour_group_log_schema.dump(tour_log) # If found will select and update information
     else:
         return {'error': f'Error Tour log with id {id} does not exist.'}, 404

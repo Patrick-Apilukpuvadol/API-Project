@@ -7,17 +7,17 @@ class Customer(db.Model):
     __tablename__ = 'customer'
     
     customer_id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(50))
-    last_name = db.Column(db.String(50))
-    contact_number = db.Column(db.String(50))
-    contact_email = db.Column(db.String(50))
-    emergency_contact = db.Column(db.String(50))
+    first_name = db.Column(db.String)
+    last_name = db.Column(db.String)
+    contact_number = db.Column(db.String)
+    contact_email = db.Column(db.String, nullable=False, unique=True)
+    emergency_contact = db.Column(db.String)
     
-    customers = db.relationship('')
+    
     
 
     
-class CustomerSchema(ma,Schema):
+class CustomerSchema(ma.Schema):
     customer_id = fields.Integer()
     first_name = fields.String(required=True, validate=And(
         Length(min=2, error='The first name must be at least two characters long.')))

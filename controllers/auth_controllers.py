@@ -6,9 +6,9 @@ from psycopg2 import errorcodes
 from flask_jwt_extended import create_access_token
 from datetime import timedelta
 
-authentication_blueprint = Blueprint('auth', __name__, url_prefix='/auth')
+auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
-@authentication_blueprint.route('/register', methods=['POST']) # registering new user
+@auth_bp.route('/register', methods=['POST']) # registering new agent
 def register():
     try:
         json_data = request.get_json() 
@@ -30,15 +30,15 @@ def register():
             return {'error': f'The {e.orig.diag.column_name} is required.'}, 409
         
         
-@authentication_blueprint.route('/login', methods=['POST']) # Route for logging in
+@auth_bp.route('/login', methods=['POST']) # Route for logging in
 def login():
     
     json_data = request.get_json() 
-    stmt = db.select(Agent).filter_by(email=json_data.get('contact_email'))
+    stmt = db.select(Agent).filter_by(contact_email=json_data.get('contact_email'))
     agent = db.session.scalar(stmt)
     
     if agent and bcrypt.check_password_hash(agent.password, json_data.get('password')):
         token = create_access_token(identity=str(agent.id), expires_delta=timedelta(days=7)) 
-        return {'Login Succesful': Agent, 'email': agent.email, 'token': token, 'is_admin': agent.is_admin}
+        return {'Login Succesful': Agent, 'contact_email': agent.email, 'token': token, 'is_admin': agent.is_admin}
     else:
         return {'Error': 'You have entered the wrong email or the wrong password. Please try again.'}, 401 

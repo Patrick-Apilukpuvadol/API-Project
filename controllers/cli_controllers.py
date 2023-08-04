@@ -1,10 +1,10 @@
 from init import db, bcrypt
 from flask import Blueprint
-from models.agent import Agent
-from models.tour_guide import Tour_guide
-from models.customer import Customer
-from models.tour_group_log import Tour_group_log
-from models.customer_tour_booking import Customer_tour_booking
+from models.agent import Agent, AgentSchema, agents_schema
+from models.tour_guide import Tour_guide, Tour_guideSchema
+from models.customer import Customer, CustomerSchema
+from models.tour_group_log import Tour_group_log, Tour_group_logSchema
+from models.customer_tour_booking import Customer_tour_booking, Customer_tour_bookingSchema
 
 
 db_commands = Blueprint('db', __name__)
@@ -23,18 +23,20 @@ def drop_db():
 def seed_db():
     agents = [ #examples for agents
             Agent(
-            agent_id='4',
-            first_name='admin',
+            agent_id='8',
+            first_name='admin4',
             last_name="person",
-            contact_email='adminp@admin.com',
+            contact_number='0450987576',
+            contact_email='adminp4@admin.com',
             password=bcrypt.generate_password_hash('admin1').decode('utf-8'),
             is_admin=True
             ),
             Agent(
-            agent_id='5',
+            agent_id='9',
             first_name='not',
-            last_name="admin",
-            contact_email='notadmin@admin.com',
+            last_name="admin4",
+            contact_number='0430292918',
+            contact_email='notadmin4@admin.com',
             password=bcrypt.generate_password_hash('notadmin1').decode('utf-8')
             ),
         ]
@@ -69,7 +71,7 @@ def seed_db():
         )
     ]
     
-    db.session.add.all(customers)
+    db.session.add_all(customers)
     
     tour_guides = [ #examples for tour guides
         Tour_guide(
@@ -90,32 +92,32 @@ def seed_db():
         )
     ]
     
-    db.session.add.all(tour_guides)
+    db.session.add_all(tour_guides)
     
     tour_group_logs = [ #examples for tour group logs
         Tour_group_log(
-            tour_id='4',
-            customer_id='6',
-            agent_id='4',
+            tour_id='6',
+            booking_id='6',
+            agent_id='8',
             duration='10Days',
             activities='Cruise',
             booking_fee='1350'
         ),
         Tour_group_log(
-            tour_id='5',
-            customer_id='7',
-            agent_id='5',
+            tour_id='7',
+            booking_id='7',
+            agent_id='9',
             duration='6Days',
             activities='Hiking',
             booking_fee='590'
         )
     ]
     
-    db.session.add.all(tour_group_logs)
+    db.session.add_all(tour_group_logs)
     
     customer_tour_bookings = [ #examples for customer tour bookings
         Customer_tour_booking(
-            customer_id='6',
+            booking_id='6',
             first_name='Harrison',
             last_name='Ford',
             contact_number='0465789321',
@@ -123,7 +125,7 @@ def seed_db():
             tour_id='4'
         ),
         Customer_tour_booking(
-            customer_id='7',
+            booking_id='7',
             first_name='Darth',
             last_name='Vader',
             contact_number='0452454636',
@@ -132,7 +134,7 @@ def seed_db():
         )
     ]
     
-    db.session.add.all(customer_tour_bookings)
+    db.session.add_all(customer_tour_bookings)
     
     db.session.commit()
     

@@ -9,13 +9,13 @@ class Tour_guide(db.Model):
     
     guide_id = db.Column(db.Integer, primary_key=True)
     tour_id = db.Column(db.Integer, db.ForeignKey('tour_group_log.tour_id'), nullable=False)
-    first_name = db.Column(db.String(50))
-    last_name = db.Column(db.String(50))
-    company_name = db.Column(db.String(50))
-    emergency_contact = db.Column(db.String(50))
+    first_name = db.Column(db.String)
+    last_name = db.Column(db.String)
+    company_name = db.Column(db.String)
+    emergency_contact = db.Column(db.String)
     
     
-class Tour_guideSchema(ma,Schema):
+class Tour_guideSchema(ma.Schema):
     guide_id = fields.Integer()
     tour_id = db.Column(db.Integer, db.ForeignKey('tour_group_log.tour_id'), nullable=False)
     first_name = fields.String(required=True, validate=And(
@@ -25,7 +25,7 @@ class Tour_guideSchema(ma,Schema):
     company_name = fields.String(required=True, validate=And(
         Length(min=2, error='The name of company must be at least two characters long.')))
     emergency_contact = fields.String(required=True, validate=And(
-        Length(min=10, error='The mobile number must be 10 digits')))
+        Length(min=9, error='The mobile number must be 10 digits')))
     
     class Meta:
         fields = ('guide_id', 'tour_id', 'first_name', 'last_name', 'company_name', 'emergency_contact')

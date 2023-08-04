@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request, Blueprint
 from init import db
 from models.customer_tour_booking import Customer_tour_booking
 from models.customer import Customer, CustomerSchema, customer_schema, customers_schema
-from agent_controller import admin_authorised
+from controllers.agent_controller import admin_authorised
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 customer_bp = Blueprint('customer', __name__)
@@ -13,7 +13,7 @@ def get_customer():
     customers = db.session.scalars(stmt)
     return customers_schema.dump(customers)
 
-@customer_bp.route('<int:customer_id>', methods=['GET'])
+@customer_bp.route('/<int:customer_id>', methods=['GET'])
 def get_customer_id(customer_id):
     stmt = db.select(Customer).filter_by(customer_id=customer_id)
     customer = db.session.scalar(stmt) 
@@ -37,16 +37,16 @@ def add_customer():
     )
     db.session.add(customer) # Creates new customer for session
     db.session.commit() # Commits creation of new customer
-    return customer_schema.dump(customer), 201 # Returns result to user
+    return customer_schema.dump(customer), 201
 
 @customer_bp.route('/<int:customer_id>', methods=['DELETE'])
 @jwt_required()
-def delete_customer(customer_id): #deletes the customer while making user user has admin rights
+def delete_customer(customer_id): #deletes the customer 
     
-    admin_status = admin_authorised() # authorise_admin function checks whether user has admin permissions
+    admin_status = admin_authorised() # authorise_admin function
     if not admin_status:
-        return {'error': 'You do not possess Admin rights to delete this customer'} # if not admin return this error message
-    stmt = db.select(Customer).filter_by(customer_id=customer_id) # queries and searches for specific id
+        return {'error': 'You do not possess Admin rights to delete this customer'} # if not admin will return error message
+    stmt = db.select(Customer).filter_by(customer_id=customer_id) # queries and searches for id
     customer = db.session.scalar(stmt)
     if customer:
         db.session.delete(customer)

@@ -18,7 +18,7 @@ def get_agents():
     agent = db.session.scalars(stmt)
     return agents_schema.dump(agent)
 
-@agent_bp.route('<int:agent_id>', methods=['GET'])
+@agent_bp.route('/<int:agent_id>', methods=['GET'])
 def get_agent_id(agent_id):
     stmt = db.select(Agent).filter_by(id=id)
     agent = db.session.scalar(stmt)
@@ -28,6 +28,7 @@ def get_agent_id(agent_id):
         return {'error': f'Agent with the id {id} does not exist.'}
 
 @agent_bp.route('/', methods=['POST'])
+@jwt_required
 def add_agent():
     json_data = agent_schema.load(request.get_json())
     agent = Agent( # creating the new agent

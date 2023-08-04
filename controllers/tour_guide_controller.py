@@ -1,8 +1,8 @@
 from flask import Flask, jsonify, request, Blueprint
-from agent_controller import admin_authorised
+from controllers.agent_controller import admin_authorised
 from init import db
 from models.tour_group_log import Tour_group_log
-from models.tour_guide import Tour_guide, Tour_guideSchema, tour_guide__schema, tour_guides_schema
+from models.tour_guide import Tour_guide, Tour_guideSchema, tour_guide_schema, tour_guides_schema
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 tour_guide_bp = Blueprint('tour_guide', __name__)
@@ -15,11 +15,11 @@ def get_tour_guides():
     tour_guide = db.session.scalars(stmt)
     return tour_guides_schema.dump(tour_guide)
 
-@tour_guide_bp.route('<int:guide_id>', methods=['GET'])
+@tour_guide_bp.route('/<int:guide_id>', methods=['GET'])
 def get_tour_guide_id(guide_id):
     stmt = db.select(Tour_guide).filter_by(guide_id=guide_id)
-    customer = db.session.scalar(stmt) 
-    if customer:
+    tour_guide = db.session.scalar(stmt) 
+    if tour_guide:
         return tour_guides_schema.dump(tour_guide) # displays result of query
     else:
         return {'error': f'Tour guide with the id {id} does not exist.'}, 404 #display error if unsuccessful
@@ -43,12 +43,12 @@ def add_tour_guide():
 
 @tour_guide_bp.route('/<int:guide_id>', methods=['DELETE'])
 @jwt_required()
-def delete_tour_guide(guide_id): #deletes the tour guide while making user user has admin rights
+def delete_tour_guide(guide_id): #deletes the tour guide 
     
-    admin_status = admin_authorised() # authorise_admin function checks whether user has admin permissions
+    admin_status = admin_authorised() # authorise_admin function 
     if not admin_status:
-        return {'error': 'You do not possess Admin rights to delete this customer'} # if not admin return this error message
-    stmt = db.select(Tour_guide).filter_by(guide_id=guide_id) # queries and searches for specific id
+        return {'error': 'You do not possess Admin rights to delete this customer'} # if not admin will return error message
+    stmt = db.select(Tour_guide).filter_by(guide_id=guide_id) # queries and searches for id
     tour_guide = db.session.scalar(stmt)
     if tour_guide:
         db.session.delete(tour_guide)
